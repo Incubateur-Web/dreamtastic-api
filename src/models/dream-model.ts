@@ -54,7 +54,7 @@ function createSchema(container: ServiceContainer) {
         
         anonym:  {
             type: Schema.Types.Boolean,
-            required: [true, 'Dream anonym is required']
+            default: false
         },
         content: {
             type: Schema.Types.String,
@@ -72,7 +72,7 @@ function createSchema(container: ServiceContainer) {
         }, 
         published: {
             type: Schema.Types.Boolean,
-            required: [true, 'Dream published is required']
+            default: false
         },
     /*comments:  {
             type: Schema.Types.ObjectId,
