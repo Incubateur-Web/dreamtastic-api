@@ -2,8 +2,10 @@ import { Model, Mongoose } from 'mongoose';
 import createRefreshTokenModel, { RefreshTokenInstance } from '../models/refresh-token-model';
 import createUserModel, { UserInstance } from '../models/user-model';
 import createTypeModel, { TypeInstance } from '../models/type-model';
+import createTopicModel, { TopicInstance} from '../models/topic-model';
 import Service from './service';
 import ServiceContainer from './service-container';
+
 
 /**
  * Database service class.
@@ -11,7 +13,7 @@ import ServiceContainer from './service-container';
  * This service is used to interact with database(s). Models must be registered in this service.
  */
 export default class DatabaseService extends Service {
-
+    public readonly topic: Model<TopicInstance>;
     public readonly users: Model<UserInstance>;
     public readonly types: Model<TypeInstance>;
     public readonly refreshTokens: Model<RefreshTokenInstance>;
@@ -25,6 +27,7 @@ export default class DatabaseService extends Service {
     public constructor(container: ServiceContainer) {
         super(container);
         this.mongoose = this.createMongoose();
+        this.topic = createTopicModel(container, this.mongoose);
         this.users = createUserModel(container, this.mongoose);
         this.types = createTypeModel(container, this.mongoose);
         this.refreshTokens = createRefreshTokenModel(container, this.mongoose);
