@@ -18,9 +18,8 @@ export interface DreamAttributes extends Attributes {
     published: boolean;
     /*comments: CommentInstance;*/
     title: string;
-
-
 }
+
 /**
  * Dream instance interface.
  */
@@ -49,7 +48,6 @@ function createSchema(container: ServiceContainer) {
             ref: "User",
             required: [true, 'Dream author is required']
         },
-        
         anonym:  {
             type: Schema.Types.Boolean,
             required: [true, 'Dream anonym is required']
