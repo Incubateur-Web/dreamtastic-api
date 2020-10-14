@@ -4,6 +4,7 @@ import createUserModel, { UserInstance } from '../models/user-model';
 import createTypeModel, { TypeInstance } from '../models/type-model';
 import createTopicModel, { TopicInstance} from '../models/topic-model';
 import createDreamModel, { DreamInstance} from '../models/dream-model';
+import createCommentModel, {CommentInstance} from '../models/comment-model';
 import Service from './service';
 import ServiceContainer from './service-container';
 
@@ -17,7 +18,8 @@ export default class DatabaseService extends Service {
     public readonly topic: Model<TopicInstance>;
     public readonly users: Model<UserInstance>;
     public readonly types: Model<TypeInstance>;
-    public readonly dream: Model<DreamInstance>;
+    public readonly dreams: Model<DreamInstance>;
+    public readonly comments: Model<CommentInstance>;
     public readonly refreshTokens: Model<RefreshTokenInstance>;
     private readonly mongoose: Mongoose;
 
@@ -33,6 +35,7 @@ export default class DatabaseService extends Service {
         this.users = createUserModel(container, this.mongoose);
         this.dream = createDreamModel(container, this.mongoose);
         this.types = createTypeModel(container, this.mongoose);
+        this.comments = createCommentModel(container,this.mongoose);
         this.refreshTokens = createRefreshTokenModel(container, this.mongoose);
     }
 

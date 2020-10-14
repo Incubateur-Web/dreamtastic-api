@@ -3,8 +3,6 @@ import Attributes from './model';
 import ServiceContainer from '../services/service-container';
 import mongooseToJson from '@meanie/mongoose-to-json';
 
-
-
 /**
  * Topic attributes interface.
  */
@@ -12,12 +10,14 @@ export interface TopicAttributes extends Attributes {
     name: string;
     color: string;
 }
+
 /**
- * User instance interface.
+ * Topic instance interface.
  */
 export interface TopicInstance extends TopicAttributes, Document {}
+
 /**
- * Creates the type model.
+ * Creates the topic model.
  * 
  * @param container Services container
  * @param mongoose Mongoose instance
@@ -27,10 +27,10 @@ export default function createModel(container: ServiceContainer, mongoose: Mongo
 }
 
 /**
- * Creates the type schema.
+ * Creates the topic schema.
  * 
  * @param container Services container
- * @returns Type schema
+ * @returns Topic schema
  */
 function createSchema(container: ServiceContainer) {
     const schema = new Schema({
