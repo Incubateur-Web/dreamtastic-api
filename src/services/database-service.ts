@@ -33,7 +33,7 @@ export default class DatabaseService extends Service {
         this.mongoose = this.createMongoose();
         this.topic = createTopicModel(container, this.mongoose);
         this.users = createUserModel(container, this.mongoose);
-        this.dream = createDreamModel(container, this.mongoose);
+        this.dreams = createDreamModel(container, this.mongoose);
         this.types = createTypeModel(container, this.mongoose);
         this.comments = createCommentModel(container,this.mongoose);
         this.refreshTokens = createRefreshTokenModel(container, this.mongoose);
