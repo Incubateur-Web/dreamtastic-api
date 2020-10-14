@@ -8,6 +8,9 @@ import Attributes from './model';
 export interface UserAttributes extends Attributes {
     name: string;
     password: string;
+    description: string;
+    lastConnection: Date;
+    avatar: string;
 }
 
 /**
@@ -43,10 +46,21 @@ function createUserSchema(container: ServiceContainer) {
             required: [true, 'Password is required'],
             minlength: [8, 'Password is too small'],
             select: false
+        },
+        description: {
+            type: Schema.Types.String
+        },
+        lastConnection: {
+            type: Schema.Types.Date,
+            required:[true, 'lastConnection is required']
+        },
+        avatar: {
+            type: Schema.Types.String
         }
     }, {
         timestamps: true,
-        toJSON: { virtuals: true },
+        versionKey: false,
+        toJSON:   { virtuals: true },
         toObject: { virtuals: true }
     });
 

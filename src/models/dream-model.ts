@@ -6,9 +6,6 @@ import { UserInstance } from './user-model';
 import { TopicInstance } from './topic-model';
 import { TypeInstance } from './type-model';
 
-
-
-
 /**
  * Dream attributes interface.
  */
@@ -21,15 +18,15 @@ export interface DreamAttributes extends Attributes {
     published: boolean;
     /*comments: CommentInstance;*/
     title: string;
-
-
 }
+
 /**
- * User instance interface.
+ * Dream instance interface.
  */
 export interface DreamInstance extends DreamAttributes, Document {}
+
 /**
- * Creates the type model.
+ * Creates the dream model.
  * 
  * @param container Services container
  * @param mongoose Mongoose instance
@@ -39,10 +36,10 @@ export default function createModel(container: ServiceContainer, mongoose: Mongo
 }
 
 /**
- * Creates the type schema.
+ * Creates the dream schema.
  * 
  * @param container Services container
- * @returns Type schema
+ * @returns Dream schema
  */
 function createSchema(container: ServiceContainer) {
     const schema = new Schema({
@@ -51,7 +48,6 @@ function createSchema(container: ServiceContainer) {
             ref: "User",
             required: [true, 'Dream author is required']
         },
-        
         anonym:  {
             type: Schema.Types.Boolean,
             default: false
@@ -74,17 +70,15 @@ function createSchema(container: ServiceContainer) {
             type: Schema.Types.Boolean,
             default: false
         },
-    /*comments:  {
+        /*comments:  {
             type: Schema.Types.ObjectId,
             ref: "Comment",
             required: [true, 'Dream comment is required']
         },*/
-    title: {
-        type: Schema.Types.String,
-        required: [true, 'Dream title is required']
-    },
-
-
+        title: {
+            type: Schema.Types.String,
+            required: [true, 'Dream title is required']
+        }
     }, {
         timestamps: true,
         versionKey: false
