@@ -5,7 +5,7 @@ import ServiceContainer from '../services/service-container';
 import { UserInstance } from './user-model';
 
 /**
- * User attributes interface.
+ * Comment attributes interface.
  */
 export interface CommentAttributes extends Attributes {
     content: string;
@@ -14,7 +14,7 @@ export interface CommentAttributes extends Attributes {
 }
 
 /**
- * User instance interface.
+ * Comment instance interface.
  */
 export interface CommentInstance extends CommentAttributes, Document {}
 
