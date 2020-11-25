@@ -157,6 +157,12 @@ export default class UserController extends Controller {
             if (req.body.password != null) {
                 user.password = req.body.password;
             }
+            if (req.body.description != null){
+                user.description = req.body.description;
+            }
+            if (req.body.avatar != null){
+                user.description = req.body.avatar;
+            }
             await user.save();
             return res.status(200).send({
                 id: user.id,
