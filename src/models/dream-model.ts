@@ -47,7 +47,7 @@ function createSchema(container: ServiceContainer) {
         author: {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: [true, 'Dream author is required']
+            required: [false, 'Dream author is required']
         },
         anonym:  {
             type: Schema.Types.Boolean,
@@ -60,12 +60,12 @@ function createSchema(container: ServiceContainer) {
         topics:  {
             type: Schema.Types.ObjectId,
             ref: 'Topic',
-            required: [true, 'Dream topic is required']
+            required: [false, 'Dream topic is required']
         },
         type: {
             type: Schema.Types.ObjectId,
             ref: 'Type',
-            required: [true, 'Dream type is required']
+            required: [false, 'Dream type is required']
         },
         published: {
             type: Schema.Types.Boolean,
@@ -74,11 +74,11 @@ function createSchema(container: ServiceContainer) {
         comments:  {
             type: Schema.Types.ObjectId,
             ref: 'Comment',
-            required: [true, 'Dream comment is required']
+            required: [false, 'Dream comment is required']
         },
         title: {
             type: Schema.Types.String,
-            required: [true, 'Dream title is required']
+            required: [false, 'Dream title is required']
         }
     }, {
         timestamps: true,
