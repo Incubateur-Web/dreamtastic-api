@@ -81,7 +81,7 @@ function createSchema(container: ServiceContainer) {
         type: {
             type: Schema.Types.ObjectId,
             ref: 'Type',
-            required: [false, 'Dream type is required']
+            required: [true, 'Dream type is required']
         },
         published: {
             type: Schema.Types.Boolean,
@@ -94,7 +94,7 @@ function createSchema(container: ServiceContainer) {
         },
         title: {
             type: Schema.Types.String,
-            required: [false, 'Dream title is required']
+            required: [true, 'Dream title is required']
         }
     }, {
         timestamps: true,
