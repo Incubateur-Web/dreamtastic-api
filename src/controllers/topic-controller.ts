@@ -34,7 +34,7 @@ export default class TopicController extends Controller {
     */
    public async listHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topics = await this.db.topic.find();
+            const topics = await this.db.topics.find();
             return res.status(200).send({ topics });
         } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
@@ -52,7 +52,7 @@ export default class TopicController extends Controller {
      */
     public async createHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topic = await this.db.topic.create({
+            const topic = await this.db.topics.create({
                 name: req.body.name,
                 color: req.body.color
             });
@@ -83,7 +83,7 @@ export default class TopicController extends Controller {
      */
     public async deleteHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topic = await this.db.topic.findByIdAndDelete(req.params.id);
+            const topic = await this.db.topics.findByIdAndDelete(req.params.id);
             if (topic == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
@@ -107,7 +107,7 @@ export default class TopicController extends Controller {
      */
     public async getHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topic = await this.db.topic.findById(req.params.id);
+            const topic = await this.db.topics.findById(req.params.id);
             if (topic == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
@@ -131,7 +131,7 @@ export default class TopicController extends Controller {
      */
     public async modifyHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topic = await this.db.topic.findById(req.params.id);
+            const topic = await this.db.topics.findById(req.params.id);
             if (topic == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
