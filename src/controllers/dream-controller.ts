@@ -104,7 +104,13 @@ export default class DreamController extends Controller {
         try {
             const dream = await this.db.dreams.create({
                 content: req.body.content,
-                title: req.body.title
+                title:   req.body.title,
+                topics:  req.body.topics
+                /* author: req.body.author,
+                    anonym: req.body.anonym,
+                    type: req.body.type,
+                    published: req.body.published
+                */
             });
             return res.status(201).send({
                 id: dream.id,
