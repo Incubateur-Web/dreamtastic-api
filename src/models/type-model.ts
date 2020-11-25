@@ -4,7 +4,7 @@ import Attributes from './model';
 import ServiceContainer from '../services/service-container';
 
 /**
- * User attributes interface.
+ * Type attributes interface.
  */
 export interface TypeAttributes extends Attributes {
     name: string;
@@ -12,7 +12,7 @@ export interface TypeAttributes extends Attributes {
 }
 
 /**
- * User instance interface.
+ * Type instance interface.
  */
 export interface TypeInstance extends TypeAttributes, Document {}
 

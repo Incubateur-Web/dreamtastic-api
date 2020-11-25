@@ -49,7 +49,7 @@ function createSchema(container: ServiceContainer) {
             ref: 'User',
             required: [false, 'Dream author is required']
         },
-        anonym:  {
+        anonym: {
             type: Schema.Types.Boolean,
             default: false
         },
@@ -57,10 +57,26 @@ function createSchema(container: ServiceContainer) {
             type: Schema.Types.String,
             required: [true, 'Dream content is required']
         },
-        topics:  {
-            type: Schema.Types.ObjectId,
-            ref: 'Topic',
-            required: [false, 'Dream topic is required']
+        topics: {
+            type: [{
+                type: Schema.Types.ObjectId,
+                ref: 'Topic',
+            }],
+            required: [true, 'Dream topics are required'],
+            validate: [{
+                validator: async (topicIds: string[]) => {
+                    for await (const topicId of topicIds) {
+                        if (!await container.db.topics.exists({ _id: topicId })) {
+                            return false;
+                        }
+                    }
+                    return true;
+                },
+                message: 'Invalid topic(s)'
+            }, {
+                validator: (topicIds: string[]) => topicIds.length >= 1,
+                message: '1 topic minimum'
+            }]
         },
         type: {
             type: Schema.Types.ObjectId,

@@ -42,10 +42,10 @@ function createSchema(container: ServiceContainer) {
         },
         author: {
             type: Schema.Types.ObjectId,
-            ref:'User',
+            ref: 'User',
             required: [true, 'Author is required'],
         },
-        parent:{
+        parent: {
             type: Schema.Types.ObjectId,
             ref:'Comment'
         }
@@ -53,6 +53,6 @@ function createSchema(container: ServiceContainer) {
         timestamps: true,
         versionKey: false
     });
-    schema.plugin(mongooseToJson)
+    schema.plugin(mongooseToJson);
     return schema;
 }

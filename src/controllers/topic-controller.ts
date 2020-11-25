@@ -5,7 +5,7 @@ import ServiceContainer from '../services/service-container';
 /**
  * Topic controller class.
  * 
- * Root path : `/Topic`
+ * Root path : `/topics`
  */
 export default class TopicController extends Controller {
 
@@ -15,18 +15,36 @@ export default class TopicController extends Controller {
      * @param container Services container
      */
     public constructor(container: ServiceContainer) {
-        super(container, '/topic');
+        super(container, '/topics');
+        this.registerEndpoint({ method: 'GET', uri: '/', handlers: this.listHandler });
         this.registerEndpoint({ method: 'POST', uri: '/', handlers: this.createHandler });
         this.registerEndpoint({ method: 'DELETE', uri: '/:id', handlers: this.deleteHandler });
         this.registerEndpoint({ method: 'GET', uri: '/:id', handlers: this.getHandler });
         this.registerEndpoint({ method: 'PUT', uri: '/:id', handlers: this.modifyHandler });
-        
     }
+
+    /**
+    * Lists all topics.
+    * 
+    * Path : `GET /topics`
+    * 
+    * @param req Express request
+    * @param res Express response
+    * @async
+    */
+   public async listHandler(req: Request, res: Response): Promise<Response> {
+        try {
+            const topics = await this.db.topics.find();
+            return res.status(200).send({ topics });
+        } catch (err) {
+            return res.status(500).send(this.container.errors.formatServerError());
+        }
+   }
 
     /**
      * Creates a new topic.
      * 
-     * Path : `POST /topic`
+     * Path : `POST /topics`
      * 
      * @param req Express request
      * @param res Express response
@@ -34,12 +52,12 @@ export default class TopicController extends Controller {
      */
     public async createHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topic = await this.db.topic.create({
+            const topic = await this.db.topics.create({
                 name: req.body.name,
                 color: req.body.color
             });
             return res.status(201).send({
-                name: topic.name,
+                id: topic.id,
                 links: [{
                     rel: 'Gets the created topic',
                     action: 'GET',
@@ -57,7 +75,7 @@ export default class TopicController extends Controller {
     /**
      * Deletes a topic.
      * 
-     * Path : `DELETE /topic/:id`
+     * Path : `DELETE /topics/:id`
      * 
      * @param req Express request
      * @param res Express response
@@ -65,7 +83,7 @@ export default class TopicController extends Controller {
      */
     public async deleteHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topic = await this.db.topic.findByIdAndDelete(req.params.id);
+            const topic = await this.db.topics.findByIdAndDelete(req.params.id);
             if (topic == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
@@ -81,7 +99,7 @@ export default class TopicController extends Controller {
      /**
      * Gets a specific topic.
      * 
-     * Path : `GET /topic/:id`
+     * Path : `GET /topics/:id`
      * 
      * @param req Express request
      * @param res Express response
@@ -89,7 +107,7 @@ export default class TopicController extends Controller {
      */
     public async getHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topic = await this.db.topic.findById(req.params.id).populate('applications');
+            const topic = await this.db.topics.findById(req.params.id);
             if (topic == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
@@ -105,7 +123,7 @@ export default class TopicController extends Controller {
     /**
      * Modifies a topic.
      * 
-     * Path : `PUT /topic/:id`
+     * Path : `PUT /topics/:id`
      * 
      * @param req Express request
      * @param res Express response
@@ -113,7 +131,7 @@ export default class TopicController extends Controller {
      */
     public async modifyHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topic = await this.db.topic.findById(req.params.id);
+            const topic = await this.db.topics.findById(req.params.id);
             if (topic == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
@@ -138,7 +156,4 @@ export default class TopicController extends Controller {
             return res.status(500).send(this.container.errors.formatServerError());
         }
     }
-
-   
-
 }
