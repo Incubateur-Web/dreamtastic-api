@@ -5,6 +5,7 @@ import mongooseToJson from '@meanie/mongoose-to-json';
 import { UserInstance } from './user-model';
 import { TopicInstance } from './topic-model';
 import { TypeInstance } from './type-model';
+import { CommentInstance } from './comment-model';
 
 /**
  * Dream attributes interface.
@@ -16,7 +17,7 @@ export interface DreamAttributes extends Attributes {
     topics: TopicInstance;
     type: TypeInstance;
     published: boolean;
-    /*comments: CommentInstance;*/
+    comments: CommentInstance;
     title: string;
 }
 
@@ -65,16 +66,16 @@ function createSchema(container: ServiceContainer) {
             type: Schema.Types.ObjectId,
             ref: 'Type',
             required: [true, 'Dream type is required']
-        }, 
+        },
         published: {
             type: Schema.Types.Boolean,
             default: false
         },
-        /*comments:  {
+        comments:  {
             type: Schema.Types.ObjectId,
-            ref: "Comment",
+            ref: 'Comment',
             required: [true, 'Dream comment is required']
-        },*/
+        },
         title: {
             type: Schema.Types.String,
             required: [true, 'Dream title is required']
@@ -83,6 +84,6 @@ function createSchema(container: ServiceContainer) {
         timestamps: true,
         versionKey: false
     });
-    schema.plugin(mongooseToJson)
+    schema.plugin(mongooseToJson);
     return schema;
 }
