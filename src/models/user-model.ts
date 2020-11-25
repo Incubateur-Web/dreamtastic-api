@@ -54,21 +54,22 @@ function createUserSchema(container: ServiceContainer) {
         },
         lastConnection: {
             type: Schema.Types.Date,
-            required:[true, 'lastConnection is required']
+            default: new Date()
         },
         avatar: {
             type: Schema.Types.String
-        },
-        dreams:[{
-            type:Schema.Types.ObjectId,
-            required:true,
-            trim:true
-        }]
+        }
     }, {
         timestamps: true,
         versionKey: false,
         toJSON:   { virtuals: true },
         toObject: { virtuals: true }
+    });
+
+    schema.virtual('dreams', {
+        ref: 'Dream',
+        localField: '_id',
+        foreignField: 'author'
     });
 
     // Password hash validation

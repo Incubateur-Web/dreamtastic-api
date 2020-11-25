@@ -50,7 +50,7 @@ function createSchema(container: ServiceContainer) {
         timestamps: true,
         versionKey: false
     });
-    schema.plugin(mongooseToJson)
+    schema.plugin(mongooseToJson);
     return schema;
 }
 

@@ -15,7 +15,7 @@ import ServiceContainer from './service-container';
  * This service is used to interact with database(s). Models must be registered in this service.
  */
 export default class DatabaseService extends Service {
-    public readonly topic: Model<TopicInstance>;
+    public readonly topics: Model<TopicInstance>;
     public readonly users: Model<UserInstance>;
     public readonly types: Model<TypeInstance>;
     public readonly dreams: Model<DreamInstance>;
@@ -31,7 +31,7 @@ export default class DatabaseService extends Service {
     public constructor(container: ServiceContainer) {
         super(container);
         this.mongoose = this.createMongoose();
-        this.topic = createTopicModel(container, this.mongoose);
+        this.topics = createTopicModel(container, this.mongoose);
         this.users = createUserModel(container, this.mongoose);
         this.dreams = createDreamModel(container, this.mongoose);
         this.types = createTypeModel(container, this.mongoose);
