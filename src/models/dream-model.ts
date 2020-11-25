@@ -45,7 +45,7 @@ function createSchema(container: ServiceContainer) {
     const schema = new Schema({
         author: {
             type: Schema.Types.ObjectId,
-            ref: "User",
+            ref: 'User',
             required: [true, 'Dream author is required']
         },
         anonym:  {
@@ -58,12 +58,12 @@ function createSchema(container: ServiceContainer) {
         },
         topics:  {
             type: Schema.Types.ObjectId,
-            ref: "Topic",
+            ref: 'Topic',
             required: [true, 'Dream topic is required']
         },
         type: {
             type: Schema.Types.ObjectId,
-            ref: "Type",
+            ref: 'Type',
             required: [true, 'Dream type is required']
         }, 
         published: {

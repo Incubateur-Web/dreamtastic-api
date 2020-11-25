@@ -1,5 +1,6 @@
-import { Document, Model, Mongoose, Schema } from 'mongoose';
+import { Document, Model, Mongoose, Schema} from 'mongoose';
 import ServiceContainer from '../services/service-container';
+import { DreamInstance } from './dream-model';
 import Attributes from './model';
 
 /**
@@ -11,6 +12,7 @@ export interface UserAttributes extends Attributes {
     description: string;
     lastConnection: Date;
     avatar: string;
+    dreams:DreamInstance;
 }
 
 /**
@@ -56,7 +58,12 @@ function createUserSchema(container: ServiceContainer) {
         },
         avatar: {
             type: Schema.Types.String
-        }
+        },
+        dreams:[{
+            type:Schema.Types.ObjectId,
+            required:true,
+            trim:true
+        }]
     }, {
         timestamps: true,
         versionKey: false,
