@@ -12,7 +12,7 @@ export interface UserAttributes extends Attributes {
     description: string;
     lastConnection: Date;
     avatar: string;
-    dreams:DreamInstance;
+    dreams:DreamInstance[];
 }
 
 /**
