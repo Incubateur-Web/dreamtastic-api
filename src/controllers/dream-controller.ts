@@ -19,8 +19,8 @@ export default class DreamController extends Controller {
         this.registerEndpoint({ method: 'GET', uri: '/', handlers: this.dreamlistHandler });
         this.registerEndpoint({ method: 'GET', uri: '/:id', handlers: this.getDreamHandler });
         this.registerEndpoint({ method: 'GET', uri: '/:id/comments', handlers: this.getCommentDreamHandler });
-        //this.registerEndpoint({ method: 'GET', uri: '/:id/comments/:id', handlers: this.getSpecificCommentDreamHandler });
-        //this.registerEndpoint({ method: 'POST', uri: '/:id/comments', handlers: this.createCommentDreamHandler });
+        this.registerEndpoint({ method: 'GET', uri: '/:id/comments/:id', handlers: this.getSpecificCommentDreamHandler });
+        this.registerEndpoint({ method: 'POST', uri: '/:id/comments', handlers: this.createCommentDreamHandler });
         this.registerEndpoint({ method: 'POST', uri: '/', handlers: this.createDreamHandler });
         this.registerEndpoint({ method: 'PATCH', uri: '/:id', handlers: this.updateDreamHandler });
         //this.registerEndpoint({ method: 'PATCH', uri: '/:id/comments/:id', handlers: this.updateCommentDreamHandler });
@@ -68,7 +68,7 @@ export default class DreamController extends Controller {
             return res.status(500).send(this.container.errors.formatServerError());
         }
     }
-     /**
+    /**
      * Get all comments in a specific dream.
      * 
      * Path : `GET /dreams/:id/comments`
@@ -86,9 +86,62 @@ export default class DreamController extends Controller {
                     error_description: 'Dream not found'
                 }));
             }
+        }catch(err){
+
+        }
+    }
+     /**
+     * Get a specific comment in a specific dream.
+     * 
+     * Path : `GET /dreams/:id/comments/:id`
+     * 
+     * @param req Express request
+     * @param res Express response
+     * @async
+     */
+    public async getSpecificCommentDreamHandler(req:Request, res:Response): Promise<Response>{
+        try{
+            const dream = await this.db.dreams.findById(req.params.id).populate('applications');
+            if (dream == null) {
+                return res.status(404).send(this.container.errors.formatErrors({
+                    error: 'not_found',
+                    error_description: 'Dream not found'
+                }));
+            }
             
         }catch(err){
 
+        }
+    }
+     /**
+     * Creates a new comment.
+     * 
+     * Path : `POST /dreams/:id/comments`
+     * 
+     * @param req Express request
+     * @param res Express response
+     * @async
+     */
+    public async createCommentDreamHandler(req: Request, res: Response): Promise<Response> {
+        try {
+            const comment = await this.db.comments.create({
+                content:   req.body.content,
+                author:    req.body.author,
+                parent:    req.body.comments
+            });
+            return res.status(201).send({
+                id: comment.id,
+                links: [{
+                    rel: 'Gets the created comment',
+                    action: 'GET',
+                    href: `${req.protocol}://${req.get('host')}${this.rootUri}/${comment.id}`
+                }] as Link[]
+            });
+        } catch (err) {
+            if (err.id === 'ValidationError') {
+                return res.status(400).send(this.container.errors.formatErrors(...this.container.errors.translateMongooseValidationError(err)));
+            }
+            return res.status(500).send(this.container.errors.formatServerError());
         }
     }
     /**
