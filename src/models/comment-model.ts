@@ -3,6 +3,7 @@ import { Document, Model, Mongoose, Schema } from 'mongoose';
 import Attributes from './model';
 import ServiceContainer from '../services/service-container';
 import { UserInstance } from './user-model';
+import { DreamInstance } from './dream-model';
 
 /**
  * Comment attributes interface.
@@ -11,6 +12,7 @@ export interface CommentAttributes extends Attributes {
     content: string;
     author : UserInstance;
     parent : CommentInstance;
+    dream: DreamInstance;
 }
 
 /**
@@ -48,6 +50,10 @@ function createSchema(container: ServiceContainer) {
         parent: {
             type: Schema.Types.ObjectId,
             ref:'Comment'
+        },
+        dream:{
+            type:Schema.Types.ObjectId,
+            ref:'Dream'
         }
     }, {
         timestamps: true,
