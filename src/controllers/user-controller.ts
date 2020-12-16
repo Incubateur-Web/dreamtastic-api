@@ -161,7 +161,7 @@ export default class UserController extends Controller {
                 user.description = req.body.description;
             }
             if (req.body.avatar != null){
-                user.description = req.body.avatar;
+                user.avatar = req.body.avatar;
             }
             await user.save();
             return res.status(200).send({
