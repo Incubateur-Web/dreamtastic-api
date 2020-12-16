@@ -47,7 +47,7 @@ function createSchema(container: ServiceContainer) {
         author: {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: [false, 'Dream author is required']
+            required: [true, 'Dream author is required']
         },
         anonym: {
             type: Schema.Types.Boolean,
@@ -90,7 +90,7 @@ function createSchema(container: ServiceContainer) {
         comments:  {
             type: Schema.Types.ObjectId,
             ref: 'Comment',
-            required: [false, 'Dream comment is required']
+            required: [true, 'Dream comment is required']
         },
         title: {
             type: Schema.Types.String,
