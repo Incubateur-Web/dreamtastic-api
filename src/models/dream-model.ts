@@ -95,9 +95,11 @@ function createSchema(container: ServiceContainer) {
         timestamps: true,
         versionKey: false
     });
-    schema.virtual('comments').get(async function (this:DreamInstance):Promise<CommentInstance[]>{
-        return await container.db.comments.find({dream:this.id});
-    })
+    schema.virtual('comments', {
+        ref: 'Comment',
+        localField: '_id',
+        foreignField: 'dream'
+    });
     schema.plugin(mongooseToJson);
     return schema;
 }
