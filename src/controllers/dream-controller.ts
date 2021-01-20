@@ -108,7 +108,7 @@ export default class DreamController extends Controller {
                     error_description: 'Dream not found'
                 }));
             } 
-            const comment = dream.comments.find(comment => comment.id === req.params.commentId)
+            const comment = dream.comments.find((comment: { id: string; }) => comment.id === req.params.commentId)
             if(comment == null){
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
@@ -149,7 +149,7 @@ export default class DreamController extends Controller {
                 links: [{
                     rel: 'Gets the created comment',
                     action: 'GET',
-                    href: `${req.protocol}://${req.get('host')}${this.rootUri}/${comment.id}`
+                    href: `${req.protocol}://${req.get('host')}${this.rootUri}/${comment.dream}/${comment.id}`
                 }] as Link[]
             });
         } catch (err) {
@@ -179,7 +179,7 @@ export default class DreamController extends Controller {
                     error_description: 'Dream not found'
                 }));
             };
-            const comment = dream.comments.find(comment => comment.id === req.params.commentId)
+            const comment = dream.comments.find((comment: { id: string; }) => comment.id === req.params.commentId)
             if(comment == null){
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
@@ -247,9 +247,7 @@ export default class DreamController extends Controller {
                 topics:    req.body.topics,
                 type:      req.body.type,
                 anonym:    req.body.anonym,
-                published: req.body.published,
-                author:    req.body.author,
-                comments:  req.body.comments
+                author:    req.body.author
             });
             return res.status(201).send({
                 id: dream.id,
@@ -296,6 +294,9 @@ export default class DreamController extends Controller {
             }
             if (req.body.type != null){
                 dream.type = req.body.type;
+            }
+            if (req.body.anonym != null){
+                dream.anonym = req.body.anonym;
             }
             await dream.save();
             return res.status(200).send({
