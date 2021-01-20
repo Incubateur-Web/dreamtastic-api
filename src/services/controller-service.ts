@@ -1,5 +1,6 @@
 import { Application } from 'express';
 import Controller from '../controllers/controller';
+import DreamController from '../controllers/dream-controller';
 import TopicController from '../controllers/topic-controller';
 import TypeController from '../controllers/type-controller';
 import UserController from '../controllers/user-controller';
@@ -27,7 +28,8 @@ export default class ControllerService extends Service {
         this.controllers = [
             new UserController(container),
             new TopicController(container),
-            new TypeController(container)
+            new TypeController(container),
+            new DreamController(container)
         ];
     }
 
