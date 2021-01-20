@@ -15,9 +15,10 @@ export default class TypeController extends Controller {
      * @param container Services container
      */
     public constructor(container: ServiceContainer) {
-        super(container, '/type');
+        super(container, '/types');
         this.registerEndpoint({ method: 'POST', uri: '/', handlers: this.createHandler });
         this.registerEndpoint({ method: 'DELETE', uri: '/:id', handlers: this.deleteHandler });
+        this.registerEndpoint({ method: 'GET', uri: '/', handlers: this.listHandler });
         this.registerEndpoint({ method: 'GET', uri: '/:id', handlers: this.getHandler });
         this.registerEndpoint({ method: 'PUT', uri: '/:id', handlers: this.modifyHandler });
 
@@ -26,7 +27,7 @@ export default class TypeController extends Controller {
     /**
      * Creates a new type.
      * 
-     * Path : `POST /type`
+     * Path : `POST /types`
      * 
      * @param req Express request
      * @param res Express response
@@ -39,7 +40,7 @@ export default class TypeController extends Controller {
                 color: req.body.color
             });
             return res.status(201).send({
-                name: type.name,
+                id: type.id,
                 links: [{
                     rel: 'Gets the created type',
                     action: 'GET',
@@ -55,9 +56,33 @@ export default class TypeController extends Controller {
     }
 
     /**
+    * Gets all types.
+    * 
+    * Path : `GET /types/:id`
+    * 
+    * @param req Express request
+    * @param res Express response
+    * @async
+    */
+    public async listHandler(req: Request, res: Response): Promise<Response> {
+        try {
+            const type = await this.db.types.findById(req.params.id);
+            if (type == null) {
+                return res.status(404).send(this.container.errors.formatErrors({
+                    error: 'not_found',
+                    error_description: 'type not found'
+                }));
+            }
+            return res.status(200).send({ type });
+        } catch (err) {
+            return res.status(500).send(this.container.errors.formatServerError());
+        }
+    }
+
+    /**
      * Deletes a type.
      * 
-     * Path : `DELETE /type/:id`
+     * Path : `DELETE /types/:id`
      * 
      * @param req Express request
      * @param res Express response
@@ -81,7 +106,7 @@ export default class TypeController extends Controller {
     /**
     * Gets a specific type.
     * 
-    * Path : `GET /type/:id`
+    * Path : `GET /types/:id`
     * 
     * @param req Express request
     * @param res Express response
@@ -105,7 +130,7 @@ export default class TypeController extends Controller {
     /**
      * Modifies a type.
      * 
-     * Path : `PUT /type/:id`
+     * Path : `PUT /types/:id`
      * 
      * @param req Express request
      * @param res Express response
@@ -138,7 +163,4 @@ export default class TypeController extends Controller {
             return res.status(500).send(this.container.errors.formatServerError());
         }
     }
-
-
-
 }
