@@ -18,9 +18,7 @@ export interface CommentAttributes extends Attributes {
 /**
  * Comment instance interface.
  */
-export interface CommentInstance extends CommentAttributes, Document {
-    [x: string]: any;
-}
+export interface CommentInstance extends CommentAttributes, Document {}
 
 /**
  * Creates the comment model.

@@ -44,7 +44,7 @@ export default class DreamController extends Controller {
             return res.status(500).send(this.container.errors.formatServerError());
         }
     }
-   
+
     /**
      * Get a specific dream.
      * 
@@ -107,14 +107,14 @@ export default class DreamController extends Controller {
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
-            } 
-            const comment = dream.comments.find((comment: { id: string; }) => comment.id === req.params.commentId)
+            }
+            const comment = dream.comments.find(comment => comment.id === req.params.commentId);
             if(comment == null){
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Comment not found'
                 }));
-            } 
+            }
                 return res.status(200).send({comment})
         }catch(err){
             return res.status(500).send(this.container.errors.formatServerError());
@@ -130,14 +130,13 @@ export default class DreamController extends Controller {
      * @async
      */
     public async createCommentDreamHandler(req: Request, res: Response): Promise<Response> {
-        
         try {
             if (!await this.db.dreams.exists({_id:req.params.id})){
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
-            };
+            }
             const comment = await this.db.comments.create({
                 content:   req.body.content,
                 author:    req.body.author,
@@ -149,7 +148,7 @@ export default class DreamController extends Controller {
                 links: [{
                     rel: 'Gets the created comment',
                     action: 'GET',
-                    href: `${req.protocol}://${req.get('host')}${this.rootUri}/${comment.dream}/${comment.id}`
+                    href: `${req.protocol}://${req.get('host')}${this.rootUri}/${req.body.id}/${comment.id}`
                 }] as Link[]
             });
         } catch (err) {
@@ -178,14 +177,14 @@ export default class DreamController extends Controller {
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
-            };
-            const comment = dream.comments.find((comment: { id: string; }) => comment.id === req.params.commentId)
+            }
+            const comment = dream.comments.find(comment => comment.id === req.params.commentId)
             if(comment == null){
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Comment not found'
                 }));
-            } 
+            }
             if (req.body.content != null) {
                 comment.content = req.body.content;
             }
@@ -214,7 +213,7 @@ export default class DreamController extends Controller {
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
-            };
+            }
             const comment = await this.db.comments.findByIdAndDelete(req.params.commentId)
             if(comment == null){
                 return res.status(404).send(this.container.errors.formatErrors({
