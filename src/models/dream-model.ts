@@ -17,7 +17,7 @@ export interface DreamAttributes extends Attributes {
     topics: TopicInstance;
     type: TypeInstance;
     published: boolean;
-    comments: CommentInstance;
+    comments: CommentInstance[];
     title: string;
 }
 
@@ -87,11 +87,6 @@ function createSchema(container: ServiceContainer) {
             type: Schema.Types.Boolean,
             default: false
         },
-        comments:  {
-            type: Schema.Types.ObjectId,
-            ref: 'Comment',
-            required: [true, 'Dream comment is required']
-        },
         title: {
             type: Schema.Types.String,
             required: [true, 'Dream title is required']
@@ -100,6 +95,9 @@ function createSchema(container: ServiceContainer) {
         timestamps: true,
         versionKey: false
     });
+    schema.virtual('comments').get(async function (this:DreamInstance):Promise<CommentInstance[]>{
+        return await container.db.comments.find({dream:this.id});
+    })
     schema.plugin(mongooseToJson);
     return schema;
 }
