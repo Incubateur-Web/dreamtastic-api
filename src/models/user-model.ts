@@ -13,6 +13,7 @@ export interface UserAttributes extends Attributes {
     lastConnection: Date;
     avatar: string;
     dreams:DreamInstance[];
+    refreshToken?: string;
 }
 
 /**
@@ -58,6 +59,11 @@ function createUserSchema(container: ServiceContainer) {
         },
         avatar: {
             type: Schema.Types.String
+        },
+        refreshToken: {
+            type: Schema.Types.String,
+            default: null,
+            select: false
         }
     }, {
         timestamps: true,
@@ -74,7 +80,7 @@ function createUserSchema(container: ServiceContainer) {
 
     // Password hash validation
     schema.pre('save', async function(this: UserInstance, next) {
-        if (this.password != null) { // Validates the password only if filled
+        if (this.isNew && this.password != null) { // Validates the password only if filled
             try {
                 this.password = await container.crypto.hash(this.password, parseInt(process.env.HASH_SALT, 10));
                 return next();
