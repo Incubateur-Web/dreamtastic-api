@@ -34,8 +34,7 @@ export default class TopicController extends Controller {
     */
    public async listHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const topics = await this.db.topics.find();
-            return res.status(200).send({ topics });
+            return res.status(200).send({ topics: await this.db.topics.find() });
         } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }

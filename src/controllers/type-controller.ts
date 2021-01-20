@@ -66,14 +66,7 @@ export default class TypeController extends Controller {
     */
     public async listHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const type = await this.db.types.findById(req.params.id);
-            if (type == null) {
-                return res.status(404).send(this.container.errors.formatErrors({
-                    error: 'not_found',
-                    error_description: 'type not found'
-                }));
-            }
-            return res.status(200).send({ type });
+            return res.status(200).send({ types: await this.db.types.find() });
         } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }
