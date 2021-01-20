@@ -9,5 +9,12 @@
         "typeRoots": ["types/"],
         "strict": true,
         "strictNullChecks": false
-    }
+    },
+    "ts-node": {
+        "files": true
+    },
+    "files": [
+        "types/nodejs.d.ts",
+        "types/modules.d.ts"
+    ]
 }
