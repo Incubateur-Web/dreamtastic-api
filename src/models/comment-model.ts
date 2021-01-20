@@ -49,7 +49,8 @@ function createSchema(container: ServiceContainer) {
         },
         parent: {
             type: Schema.Types.ObjectId,
-            ref:'Comment'
+            ref:'Comment',
+            default: null
         },
         dream:{
             type:Schema.Types.ObjectId,
