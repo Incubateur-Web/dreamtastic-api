@@ -114,7 +114,7 @@ export default class TypeController extends Controller {
     */
     public async getHandler(req: Request, res: Response): Promise<Response> {
         try {
-            const type = await this.db.types.findById(req.params.id).populate('applications');
+            const type = await this.db.types.findById(req.params.id);
             if (type == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',

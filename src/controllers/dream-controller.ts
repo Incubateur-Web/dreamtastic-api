@@ -56,7 +56,7 @@ export default class DreamController extends Controller {
      */
     public async getDreamHandler(req:Request, res:Response): Promise<Response>{
         try {
-            const dream = await this.db.dreams.findById(req.params.id).populate('applications');
+            const dream = await this.db.dreams.findById(req.params.id);
             if (dream == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
