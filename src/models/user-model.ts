@@ -7,6 +7,7 @@ import Attributes from './model';
  * User attributes interface.
  */
 export interface UserAttributes extends Attributes {
+    email: string;
     name: string;
     password: string;
     description: string;
@@ -39,6 +40,15 @@ export default function createModel(container: ServiceContainer, mongoose: Mongo
  */
 function createUserSchema(container: ServiceContainer) {
     const schema = new Schema({
+        email: {
+            type: Schema.Types.String,
+            required: [true, 'Email is required'],
+            unique: true,
+            validate: {
+                validator: (email: string) => /\S+@\S+\.\S+/.test(email),
+                message: 'Invalid email'
+            }
+        },
         name: {
             type: Schema.Types.String,
             required: [true, 'Name is required'],
