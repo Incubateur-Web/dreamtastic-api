@@ -1,0 +1,713 @@
+---
+swagger: "2.0"
+info:
+  description: Dreamtastic API official documentation
+  version: 1.0.0
+  title: Dreamtastic API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: virtserver.swaggerhub.com
+basePath: /RM-04/DREAMTASTIC/1.0.0
+tags:
+- name: User
+  description: User routes
+- name: Dreams
+  description: Dream routes
+- name: Auth
+  description: auth routes
+- name: Type
+  description: Type routes
+- name: Topic
+  description: Topic routes
+schemes:
+- https
+paths:
+  /dreams:
+    get:
+      tags:
+      - Dreams
+      summary: fetch dreams
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: fetchDreams
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Dream details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dream'
+        "500":
+          description: Internal server error
+    post:
+      tags:
+      - Dreams
+      summary: add dream
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: addDream
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Dream
+        required: false
+        schema:
+          $ref: '#/definitions/Dream'
+      responses:
+        "200":
+          description: Dream details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dream'
+        "400":
+          description: invalid input, object invalid
+        "500":
+          description: Internal server error
+  /dreams/:id:
+    get:
+      tags:
+      - Dreams
+      summary: fetch dream by id
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: fetchDreamId
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Dream details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dream'
+        "500":
+          description: Internal server error
+    delete:
+      tags:
+      - Dreams
+      summary: delete a dream
+      operationId: deleteDream
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "204":
+          description: User delete
+        "400":
+          description: bad input parameter
+        "500":
+          description: Internal server error
+    patch:
+      tags:
+      - Dreams
+      summary: update a dream
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: updateDream
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Dream
+        required: false
+        schema:
+          $ref: '#/definitions/Dream'
+      responses:
+        "200":
+          description: Dream details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Dream'
+        "400":
+          description: invalid input, object invalid
+        "500":
+          description: Internal server error
+  /dreams/:id/comments:
+    get:
+      tags:
+      - Dreams
+      summary: fetch all comments in a dream
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: fetchCommentsInDream
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Comment details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        "500":
+          description: Internal server error
+    post:
+      tags:
+      - Dreams
+      summary: Create a Comment
+      description: Add a comment on a dream
+      operationId: addComment
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Comment
+        required: false
+        schema:
+          $ref: '#/definitions/Comment'
+      responses:
+        "201":
+          description: Comment posted
+        "400":
+          description: invalid input, object invalid
+        "500":
+          description: Internal server error
+  /dreams/:id/comments/:commentId:
+    get:
+      tags:
+      - Dreams
+      summary: fetch comment by id
+      operationId: fetchCommentId
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Comment details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        "404":
+          description: Comment not found
+        "500":
+          description: Internal server error
+    delete:
+      tags:
+      - Dreams
+      summary: delete a Comment
+      operationId: deleteComment
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "204":
+          description: Comment delete
+        "400":
+          description: bad input parameter
+        "500":
+          description: Internal server error
+    patch:
+      tags:
+      - Dreams
+      summary: Update a comment
+      operationId: updateComment
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: User
+        required: false
+        schema:
+          $ref: '#/definitions/Comment'
+      responses:
+        "200":
+          description: User details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Comment'
+        "404":
+          description: user not found
+        "500":
+          description: Internal server error
+  /dreams/:id/comments/:commentId/reply:
+    post:
+      tags:
+      - Dreams
+      summary: Create a Comment reply
+      description: Add a comment on a comment
+      operationId: addCommentReply
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Comment
+        required: false
+        schema:
+          $ref: '#/definitions/Comment'
+      responses:
+        "201":
+          description: Comment posted
+        "400":
+          description: invalid input, object invalid
+        "500":
+          description: Internal server error
+  /users:
+    get:
+      tags:
+      - User
+      summary: fetch users
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: fetchUsers
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: User details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        "500":
+          description: Internal server error
+    post:
+      tags:
+      - User
+      summary: Create an User
+      description: Adds an User
+      operationId: addUser
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: User
+        required: false
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        "201":
+          description: User created
+        "400":
+          description: invalid input, object invalid
+        "500":
+          description: Internal server error
+  /users/:id:
+    get:
+      tags:
+      - User
+      summary: fetch user by id
+      operationId: fetchUserId
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: User details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        "404":
+          description: User not found
+        "500":
+          description: Internal server error
+    delete:
+      tags:
+      - User
+      summary: delete an User
+      operationId: deleteUser
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "204":
+          description: User delete
+        "400":
+          description: bad input parameter
+        "500":
+          description: Internal server error
+    patch:
+      tags:
+      - User
+      summary: Update an User
+      operationId: updateUser
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: User
+        required: false
+        schema:
+          $ref: '#/definitions/User'
+      responses:
+        "200":
+          description: User details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        "404":
+          description: user not found
+        "500":
+          description: Internal server error
+  /auth/accessToken:
+    post:
+      tags:
+      - Auth
+      summary: Gets a new access token with a refresh token.
+      operationId: accessToken
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "201":
+          description: token details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RefreshToken'
+        "400":
+          description: bad input parameter
+        "500":
+          description: Internal server error
+  /auth/refreshToken:
+    post:
+      tags:
+      - Auth
+      summary: Gets a new refresh token. An access token is also returned.
+      operationId: refreshToken
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "201":
+          description: token details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/RefreshToken'
+        "400":
+          description: bad input parameter
+        "500":
+          description: Internal server error
+  /topics:
+    get:
+      tags:
+      - Topic
+      summary: fetch topics
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: fetchTopics
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Topic details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Topic'
+        "500":
+          description: Internal server error
+    post:
+      tags:
+      - Topic
+      summary: Add Topic
+      operationId: addTopic
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "201":
+          description: topic details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Topic'
+        "400":
+          description: bad input parameter
+        "500":
+          description: Internal server error
+  /topics/:id:
+    get:
+      tags:
+      - Topic
+      summary: fetch topic by id
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: fetchTopicId
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Topic details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Topic'
+        "404":
+          description: Topic not found
+        "500":
+          description: Internal server error
+    put:
+      tags:
+      - Topic
+      summary: update topic by id
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: updateTopic
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Topic details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Topic'
+        "404":
+          description: Topic not found
+        "500":
+          description: Internal server error
+    delete:
+      tags:
+      - Topic
+      summary: delete topic
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: deleteTopic
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "204":
+          description: Topic delete
+        "404":
+          description: Topic not found
+        "500":
+          description: Internal server error
+  /types:
+    get:
+      tags:
+      - Type
+      summary: fetch types
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: fetchTypes
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Types details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Type'
+        "500":
+          description: Internal server error
+    post:
+      tags:
+      - Type
+      summary: Add Type
+      operationId: addType
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "201":
+          description: type details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Type'
+        "400":
+          description: bad input parameter
+        "500":
+          description: Internal server error
+  /types/:id:
+    get:
+      tags:
+      - Type
+      summary: fetch type by id
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: fetchTypeId
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Type details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Type'
+        "404":
+          description: Type not found
+        "500":
+          description: Internal server error
+    put:
+      tags:
+      - Topic
+      summary: update type by id
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: updateType
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: Type details
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Type'
+        "404":
+          description: Type not found
+        "500":
+          description: Internal server error
+    delete:
+      tags:
+      - Type
+      summary: delete type
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: deleteType
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "204":
+          description: Type delete
+        "404":
+          description: Type not found
+        "500":
+          description: Internal server error
+definitions:
+  Dream:
+    type: object
+    required:
+    - author
+    - content
+    - id
+    - title
+    - topics
+    - type
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      author:
+        type: string
+        example: JacquesDu12
+      anonym:
+        type: boolean
+      content:
+        type: string
+        example: Rever c'est trop bien
+      topics:
+        $ref: '#/definitions/Topic'
+      type:
+        $ref: '#/definitions/Type'
+      published:
+        type: boolean
+      title:
+        type: string
+      releaseDate:
+        type: string
+        format: date-time
+        example: 2016-08-29T09:12:33.001+0000
+  Topic:
+    required:
+    - color
+    - name
+    properties:
+      name:
+        type: string
+        example: Sport
+      color:
+        type: string
+        example: red
+  Type:
+    required:
+    - color
+    - name
+    properties:
+      name:
+        type: string
+        example: Lucide
+      color:
+        type: string
+        example: blue
+  Comment:
+    required:
+    - author
+    - content
+    properties:
+      content:
+        type: string
+      author:
+        type: string
+      parent:
+        $ref: '#/definitions/Comment'
+      dream:
+        $ref: '#/definitions/Dream'
+  RefreshToken:
+    required:
+    - token
+    - user
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/User'
+  User:
+    required:
+    - email
+    - name
+    - password
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      description:
+        type: string
+      lastConnection:
+        type: string
+      avatar:
+        type: string
+      refreshToken:
+        type: string
