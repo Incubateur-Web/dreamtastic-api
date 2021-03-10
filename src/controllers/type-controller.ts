@@ -65,8 +65,9 @@ export default class TypeController extends Controller {
     * @async
     */
     public async listHandler(req: Request, res: Response): Promise<Response> {
+        const { offset, limit, ...query } = req.query;
         try {
-            return res.status(200).send({ types: await this.db.types.find(req.query) });
+            return res.status(200).send({ types: await this.db.types.find(query).skip(parseInt(offset)).limit(parseInt(limit)) });
         } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }

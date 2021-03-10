@@ -60,9 +60,11 @@ export default class UserController extends Controller {
      * @async
      */
     public async listHandler(req: Request, res: Response): Promise<Response> {
+        const { offset, limit, ...query } = req.query;
         try {
-            return res.status(200).send({ users: await this.db.users.find(req.query) });
+            return res.status(200).send({ users: await this.db.users.find(query).skip(parseInt(offset)).limit(parseInt(limit)) });
         } catch (err) {
+            console.log(err);
             return res.status(500).send(this.container.errors.formatServerError());
         }
     }
