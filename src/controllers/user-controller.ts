@@ -61,7 +61,7 @@ export default class UserController extends Controller {
      */
     public async listHandler(req: Request, res: Response): Promise<Response> {
         try {
-            return res.status(200).send({ users: await this.db.users.find() });
+            return res.status(200).send({ users: await this.db.users.find(req.query) });
         } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }

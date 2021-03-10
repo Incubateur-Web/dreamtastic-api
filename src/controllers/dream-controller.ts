@@ -40,7 +40,7 @@ export default class DreamController extends Controller {
      */
     public async dreamlistHandler(req: Request, res: Response): Promise<Response> {
         try {
-            return res.status(200).send({ dreams: await this.db.dreams.find() });
+            return res.status(200).send({ dreams: await this.db.dreams.find(req.query) });
         } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }
