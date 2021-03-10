@@ -33,8 +33,9 @@ export default class TopicController extends Controller {
     * @async
     */
    public async listHandler(req: Request, res: Response): Promise<Response> {
+    const { offset, limit, ...query } = req.query;
         try {
-            return res.status(200).send({ topics: await this.db.topics.find(req.query) });
+            return res.status(200).send({ topics: await this.db.topics.find(query).skip(parseInt(offset)).limit(parseInt(limit)) });
         } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }

@@ -39,8 +39,9 @@ export default class DreamController extends Controller {
      * @async
      */
     public async dreamlistHandler(req: Request, res: Response): Promise<Response> {
+        const { offset, limit, ...query } = req.query;
         try {
-            return res.status(200).send({ dreams: await this.db.dreams.find(req.query) });
+            return res.status(200).send({ dreams: await this.db.dreams.find(query).skip(parseInt(offset)).limit(parseInt(limit)) });
         } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }
