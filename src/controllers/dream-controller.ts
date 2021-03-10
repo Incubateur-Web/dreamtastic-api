@@ -9,6 +9,7 @@ import ServiceContainer from '../services/service-container';
  */
 export default class DreamController extends Controller {
 
+    
     /**
      * Creates a new dreams controller.
      * 
@@ -55,7 +56,7 @@ export default class DreamController extends Controller {
      * @param res Express response
      * @async
      */
-    public async getDreamHandler(req:Request, res:Response): Promise<Response>{
+    public async getDreamHandler(req: Request, res: Response): Promise<Response> {
         try {
             const dream = await this.db.dreams.findById(req.params.id);
             if (dream == null) {
@@ -78,30 +79,30 @@ export default class DreamController extends Controller {
      * @param res Express response
      * @async
      */
-    public async getCommentDreamHandler(req:Request, res:Response): Promise<Response>{
-        try{
+    public async getCommentDreamHandler(req: Request, res: Response): Promise<Response> {
+        try {
             const dream = await this.db.dreams.findById(req.params.id).populate('comments');
             if (dream == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
-            }   return res.status(200).send({comments: dream.comments})
-        }catch(err){
+            } return res.status(200).send({ comments: dream.comments })
+        } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }
     }
-     /**
-     * Get a specific comment in a specific dream.
-     * 
-     * Path : `GET /dreams/:id/comments/:id`
-     * 
-     * @param req Express request
-     * @param res Express response
-     * @async
-     */
-    public async getSpecificCommentDreamHandler(req:Request, res:Response): Promise<Response>{
-        try{
+    /**
+    * Get a specific comment in a specific dream.
+    * 
+    * Path : `GET /dreams/:id/comments/:id`
+    * 
+    * @param req Express request
+    * @param res Express response
+    * @async
+    */
+    public async getSpecificCommentDreamHandler(req: Request, res: Response): Promise<Response> {
+        try {
             const dream = await this.db.dreams.findById(req.params.id).populate('comments');
             if (dream == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
@@ -110,40 +111,40 @@ export default class DreamController extends Controller {
                 }));
             }
             const comment = dream.comments.find(comment => comment.id === req.params.commentId);
-            if(comment == null){
+            if (comment == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Comment not found'
                 }));
             }
-                return res.status(200).send({comment})
-        }catch(err){
+            return res.status(200).send({ comment })
+        } catch (err) {
             return res.status(500).send(this.container.errors.formatServerError());
         }
     }
 
-     /**
-     * Creates a new comment.
-     * 
-     * Path : `POST /dreams/:id/comments`
-     * 
-     * @param req Express request
-     * @param res Express response
-     * @async
-     */
+    /**
+    * Creates a new comment.
+    * 
+    * Path : `POST /dreams/:id/comments`
+    * 
+    * @param req Express request
+    * @param res Express response
+    * @async
+    */
     public async createCommentDreamHandler(req: Request, res: Response): Promise<Response> {
         try {
             const dream = await this.db.dreams.findById(req.params.id)
-            if (dream == null){
+            if (dream == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
             }
             const comment = await this.db.comments.create({
-                content:   req.body.content,
-                author:    req.body.author,
-                parent:    null,
+                content: req.body.content,
+                author: req.body.author,
+                parent: null,
                 dream
             });
             return res.status(201).send({
@@ -162,34 +163,34 @@ export default class DreamController extends Controller {
         }
     }
 
-     /**
-     * Creates a new reply comment.
-     * 
-     * Path : `POST /dreams/:id/comments/:commentId/reply`
-     * 
-     * @param req Express request
-     * @param res Express response
-     * @async
-     */
+    /**
+    * Creates a new reply comment.
+    * 
+    * Path : `POST /dreams/:id/comments/:commentId/reply`
+    * 
+    * @param req Express request
+    * @param res Express response
+    * @async
+    */
     public async replyCommentDreamHandler(req: Request, res: Response): Promise<Response> {
         try {
             const dream = await this.db.dreams.findById(req.params.id).populate('comments');
-            if (dream == null){
+            if (dream == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
             }
             const parent = await this.db.comments.findById(req.params.commentId);
-            if (parent == null){
+            if (parent == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Parent comment not found'
                 }));
             }
             const comment = await this.db.comments.create({
-                content:   req.body.content,
-                author:    req.body.author,
+                content: req.body.content,
+                author: req.body.author,
                 parent,
                 dream
             });
@@ -219,17 +220,17 @@ export default class DreamController extends Controller {
      * @async
      */
 
-    public async updateCommentDreamHandler(req:Request, res:Response): Promise<Response>{
+    public async updateCommentDreamHandler(req: Request, res: Response): Promise<Response> {
         try {
             const dream = await this.db.dreams.findById(req.params.id).populate('comments');
-            if (dream == null){
+            if (dream == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
             }
             const comment = dream.comments.find(comment => comment.id === req.params.commentId)
-            if(comment == null){
+            if (comment == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Comment not found'
@@ -263,17 +264,17 @@ export default class DreamController extends Controller {
      * @param res Express response
      * @async
      */
-    public async deleteCommentDreamHandler(req: Request, res: Response): Promise<Response>{
+    public async deleteCommentDreamHandler(req: Request, res: Response): Promise<Response> {
         try {
             const dream = await this.db.dreams.findById(req.params.id)
-            if (dream == null){
+            if (dream == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Dream not found'
                 }));
             }
             const comment = await this.db.comments.findByIdAndDelete(req.params.commentId)
-            if(comment == null){
+            if (comment == null) {
                 return res.status(404).send(this.container.errors.formatErrors({
                     error: 'not_found',
                     error_description: 'Comment not found'
@@ -299,12 +300,12 @@ export default class DreamController extends Controller {
     public async createDreamHandler(req: Request, res: Response): Promise<Response> {
         try {
             const dream = await this.db.dreams.create({
-                content:   req.body.content,
-                title:     req.body.title,
-                topics:    req.body.topics,
-                type:      req.body.type,
-                anonym:    req.body.anonym,
-                author:    req.body.author
+                content: req.body.content,
+                title: req.body.title,
+                topics: req.body.topics,
+                type: req.body.type,
+                anonym: req.body.anonym,
+                author: req.body.author
             });
             return res.status(201).send({
                 id: dream.id,
@@ -322,15 +323,15 @@ export default class DreamController extends Controller {
         }
     }
 
-  /**
-     * Updates an user.
-     * 
-     * Path : `PATCH /users/:id`
-     * 
-     * @param req Express request
-     * @param res Express response
-     * @async
-     */
+    /**
+       * Updates an user.
+       * 
+       * Path : `PATCH /users/:id`
+       * 
+       * @param req Express request
+       * @param res Express response
+       * @async
+       */
     public async updateDreamHandler(req: Request, res: Response): Promise<Response> {
         try {
             const dream = await this.db.dreams.findById(req.params.id);
@@ -346,13 +347,13 @@ export default class DreamController extends Controller {
             if (req.body.content != null) {
                 dream.content = req.body.content;
             }
-            if (req.body.topics != null){
+            if (req.body.topics != null) {
                 dream.topics = req.body.topics;
             }
-            if (req.body.type != null){
+            if (req.body.type != null) {
                 dream.type = req.body.type;
             }
-            if (req.body.anonym != null){
+            if (req.body.anonym != null) {
                 dream.anonym = req.body.anonym;
             }
             await dream.save();

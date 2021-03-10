@@ -6,6 +6,7 @@ import { UserInstance } from './user-model';
 import { TopicInstance } from './topic-model';
 import { TypeInstance } from './type-model';
 import { CommentInstance } from './comment-model';
+import { ReactionInstance } from './reaction-model';
 
 /**
  * Dream attributes interface.
@@ -19,12 +20,13 @@ export interface DreamAttributes extends Attributes {
     published: boolean;
     comments: CommentInstance[];
     title: string;
+    reactions: ReactionInstance[];
 }
 
 /**
  * Dream instance interface.
  */
-export interface DreamInstance extends DreamAttributes, Document {}
+export interface DreamInstance extends DreamAttributes, Document { }
 
 /**
  * Creates the dream model.
@@ -86,6 +88,10 @@ function createSchema(container: ServiceContainer) {
         published: {
             type: Schema.Types.Boolean,
             default: false
+        },
+        reactions: {
+            type: Schema.Types.String,
+            required: [true, 'Dream reaction is required']
         },
         title: {
             type: Schema.Types.String,
