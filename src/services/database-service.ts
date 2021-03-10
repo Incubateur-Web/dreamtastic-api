@@ -1,5 +1,4 @@
 import { Model, Mongoose } from 'mongoose';
-import createRefreshTokenModel, { RefreshTokenInstance } from '../models/refresh-token-model';
 import createUserModel, { UserInstance } from '../models/user-model';
 import createTypeModel, { TypeInstance } from '../models/type-model';
 import createTopicModel, { TopicInstance} from '../models/topic-model';
@@ -20,7 +19,6 @@ export default class DatabaseService extends Service {
     public readonly types: Model<TypeInstance>;
     public readonly dreams: Model<DreamInstance>;
     public readonly comments: Model<CommentInstance>;
-    public readonly refreshTokens: Model<RefreshTokenInstance>;
     private readonly mongoose: Mongoose;
 
     /**
@@ -36,7 +34,6 @@ export default class DatabaseService extends Service {
         this.dreams = createDreamModel(container, this.mongoose);
         this.types = createTypeModel(container, this.mongoose);
         this.comments = createCommentModel(container,this.mongoose);
-        this.refreshTokens = createRefreshTokenModel(container, this.mongoose);
     }
 
     /**
@@ -47,7 +44,7 @@ export default class DatabaseService extends Service {
      * @param dbName Database name
      * @async
      */
-    public async connect(host: string, port: string | number, dbName: string): Promise<void> {
+    public async connect(host: string): Promise<void> {
         await this.mongoose.connect(host, {
             useNewUrlParser: true,
             useUnifiedTopology: true
