@@ -7,7 +7,7 @@ import ServiceContainer from '../services/service-container';
  * 
  * Root path : `/reactions`
  */
-export default class TopicController extends Controller {
+export default class ReactionController extends Controller {
 
     /**
      * Creates a new reaction controller.

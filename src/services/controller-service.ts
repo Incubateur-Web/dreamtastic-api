@@ -3,6 +3,7 @@ import AuthenticationController from '../controllers/authentication-controller';
 import Controller from '../controllers/controller';
 import DreamController from '../controllers/dream-controller';
 import TopicController from '../controllers/topic-controller';
+import ReactionController from '../controllers/reaction-controller';
 import TypeController from '../controllers/type-controller';
 import UserController from '../controllers/user-controller';
 import Service from './service';
@@ -30,6 +31,7 @@ export default class ControllerService extends Service {
             new AuthenticationController(container),
             new UserController(container),
             new TopicController(container),
+            new ReactionController(container),
             new TypeController(container),
             new DreamController(container)
         ];

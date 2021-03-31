@@ -90,7 +90,8 @@ function createSchema(container: ServiceContainer) {
             default: false
         },
         reactions: {
-            type: Schema.Types.String,
+            type: Schema.Types.ObjectId,
+            ref: 'Reaction',
             required: [true, 'Dream reaction is required']
         },
         title: {
